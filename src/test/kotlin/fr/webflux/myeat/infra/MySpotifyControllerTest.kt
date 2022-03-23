@@ -1,4 +1,4 @@
-package fr.webflux.myspotify.infra
+package fr.webflux.myeat.infra
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

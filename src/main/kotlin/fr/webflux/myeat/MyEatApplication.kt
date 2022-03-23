@@ -1,11 +1,11 @@
-package fr.webflux.myspotify
+package fr.webflux.myeat
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MyspotifyApplication
+class MyEatApplication
 
 fun main(args: Array<String>) {
-	runApplication<MyspotifyApplication>(*args)
+	runApplication<MyEatApplication>(*args)
 }
