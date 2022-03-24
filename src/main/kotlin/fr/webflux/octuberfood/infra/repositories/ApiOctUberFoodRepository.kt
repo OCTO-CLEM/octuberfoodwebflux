@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.kotlin.extra.math.min
+import java.time.Duration
+import kotlin.math.log
 
 @Repository
 class ApiOctUberFoodRepository(
@@ -17,7 +19,10 @@ class ApiOctUberFoodRepository(
     private val apiRestaurantClient: ApiRestaurantClient
 ) : OctUberFoodRepository {
 
-    override fun getListOfRestaurant(userLocation: UserLocation, userTypeRestaurantPreference: String): Flux<Restaurant> =
+    override fun getListOfRestaurant(
+        userLocation: UserLocation,
+        userTypeRestaurantPreference: String
+    ): Flux<Restaurant> =
         Flux
             .concat(
                 apiRestaurantClient.getRestaurants(userLocation),
@@ -29,13 +34,20 @@ class ApiOctUberFoodRepository(
             }
             .log()
             .flatMap { restaurantResponse ->
-                apiRestaurantClient.getDistanceBetweenRestaurantAndUser(restaurantResponse.name, userLocation).map { distanceBetweenRestaurantAndUser ->
-                    Restaurant(
-                        name = restaurantResponse.name,
-                        type = restaurantResponse.type,
-                        distanceWithMe = distanceBetweenRestaurantAndUser
-                    )
-                }
+                apiRestaurantClient.getDistanceBetweenRestaurantAndUser(restaurantResponse.name, userLocation)
+                    .map { distanceBetweenRestaurantAndUser ->
+                        Restaurant(
+                            name = restaurantResponse.name,
+                            type = restaurantResponse.type,
+                            distanceWithMe = distanceBetweenRestaurantAndUser
+                        )
+                    }.doOnError {
+                        Restaurant(
+                            name = restaurantResponse.name,
+                            type = restaurantResponse.type,
+                            distanceWithMe = -1
+                        )
+                    }
             }
             .log()
 
