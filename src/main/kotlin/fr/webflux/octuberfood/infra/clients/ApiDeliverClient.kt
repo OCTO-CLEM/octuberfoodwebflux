@@ -1,7 +1,6 @@
-package fr.webflux.myeat.infra.clients
+package fr.webflux.octuberfood.infra.clients
 
-import fr.webflux.myeat.domain.PreOrder
-import fr.webflux.myeat.infra.clients.TopDeliversResponse.TopDeliverResponse
+import fr.webflux.octuberfood.infra.clients.TopDeliversResponse.TopDeliverResponse
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.ClientResponse
@@ -13,8 +12,8 @@ import reactor.kotlin.core.publisher.toFlux
 @Service
 class ApiDeliverClient {
 
-    fun getMyBestDeliver(preOrder: PreOrder): Flux<TopDeliverResponse> =
-        fetchTopDelivers(preOrder).bodyToFlux(TopDeliversResponse::class.java).flatMap { topArtistsResponse ->
+    fun getMyBestDeliver(distanceBetweenRestaurantAndMe: Int): Flux<TopDeliverResponse> =
+        fetchTopDelivers().bodyToFlux(TopDeliversResponse::class.java).flatMap { topArtistsResponse ->
             topArtistsResponse.items.toFlux().map { topArtistResponse ->
                 TopDeliverResponse(
                     name = topArtistResponse.name,
@@ -24,7 +23,7 @@ class ApiDeliverClient {
             }
         }
 
-    private fun fetchTopDelivers(preOrder: PreOrder): WebClient.ResponseSpec {
+    private fun fetchTopDelivers(): WebClient.ResponseSpec {
         return WebClient.builder().exchangeFunction {
             Mono.just(
                 ClientResponse.create(HttpStatus.OK)

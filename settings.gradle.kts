@@ -1,1 +1,1 @@
-rootProject.name = "myeatwebflux"
+rootProject.name = "OctUberFoodWebflux"

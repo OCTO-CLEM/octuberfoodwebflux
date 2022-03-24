@@ -1,4 +1,4 @@
-package fr.webflux.myeat.domain
+package fr.webflux.octuberfood.domain.orders
 
 data class Order(
     val id: String,

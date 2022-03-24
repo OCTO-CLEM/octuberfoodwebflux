@@ -1,10 +1,10 @@
-package fr.webflux.myeat
+package fr.webflux.octuberfood
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class MyEatApplicationTests {
+class OctUberFoodApplicationTests {
 
 	@Test
 	fun contextLoads() {

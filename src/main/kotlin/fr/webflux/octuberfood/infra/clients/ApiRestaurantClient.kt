@@ -1,7 +1,7 @@
-package fr.webflux.myeat.infra.clients
+package fr.webflux.octuberfood.infra.clients
 
-import fr.webflux.myeat.domain.UserLocation
-import fr.webflux.myeat.infra.clients.RestaurantsResponse.RestaurantResponse
+import fr.webflux.octuberfood.domain.users.UserLocation
+import fr.webflux.octuberfood.infra.clients.RestaurantsResponse.RestaurantResponse
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.ClientResponse
@@ -34,7 +34,7 @@ class ApiRestaurantClient {
             }
         }
 
-    fun getDistanceBetweenRestaurantAndUser(restaurantName: String, userLocation: UserLocation): Mono<Int> =
+    fun getDistanceBetweenRestaurantAndUser(restaurantName: String, userLocation: UserLocation) =
         fetchDistanceBetweenRestaurantAndUser().bodyToMono(DistanceBetweenRestaurantAndMeResponse::class.java).flatMap { it.result.toMono() }
 
     private fun fetchRestaurants(): WebClient.ResponseSpec {
@@ -43,24 +43,26 @@ class ApiRestaurantClient {
                 ClientResponse.create(HttpStatus.OK)
                 .header("Content-Type", "application/json")
                 .body("""
-                    [
-                      {
-                        "name": "belle asie",
-                        "type": "asiatique"
-                      },
-                      {
-                        "name": "los kebabos",
-                        "type": "kebab"
-                      },
-                      {
-                        "name": "la masse",
-                        "type": "bistrot"
-                      },
-                      {
-                        "name": "café bonard",
-                        "type": "bistrot"
-                      }
-                    ]
+                    {
+                      "items": [
+                        {
+                          "name": "belle asie",
+                          "type": "asiatique"
+                        },
+                        {
+                          "name": "los kebabos",
+                          "type": "kebab"
+                        },
+                        {
+                          "name": "ramen city",
+                          "type": "asiatique"
+                        },
+                        {
+                          "name": "la masse",
+                          "type": "bistrot"
+                        }
+                      ]
+                    }
                 """.trimIndent())
                 .build())
         }.build().get().retrieve()
@@ -72,20 +74,22 @@ class ApiRestaurantClient {
                 ClientResponse.create(HttpStatus.OK)
                 .header("Content-Type", "application/json")
                 .body("""
-                    [
-                      {
-                        "name": "mc do",
-                        "type": "fast food"
-                      },
-                      {
-                        "name": "pizza hut",
-                        "type": "fast food"
-                      },
-                      {
-                        "name": "kfc",
-                        "type": "fast food"
-                      }
-                    ]
+                    {
+                      "items": [
+                          {
+                            "name": "mc do",
+                            "type": "fast food"
+                          },
+                          {
+                            "name": "sushi shop",
+                            "type": "asiatique"
+                          },
+                          {
+                            "name": "kfc",
+                            "type": "fast food"
+                          }
+                      ]
+                    }
                 """.trimIndent())
                 .build())
         }.build().get().retrieve()

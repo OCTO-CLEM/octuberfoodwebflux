@@ -1,11 +1,11 @@
-package fr.webflux.myeat
+package fr.webflux.octuberfood
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MyEatApplication
+class OctUberFoodApplication
 
 fun main(args: Array<String>) {
-	runApplication<MyEatApplication>(*args)
+	runApplication<OctUberFoodApplication>(*args)
 }
